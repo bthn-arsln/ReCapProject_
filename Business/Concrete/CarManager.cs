@@ -40,12 +40,12 @@ namespace Business.Concrete
 
         public List<Car> GetCarsByBrandId(int id)
         {
-            throw new NotImplementedException();
+            return _carDal.GetAll(c => c.BrandId == id);
         }
 
         public List<Car> GetCarsByColorId(int id)
         {
-            throw new NotImplementedException();
+            return _carDal.GetAll(c => c.ColorId == id);
         }
 
         public void Update(Car car)
