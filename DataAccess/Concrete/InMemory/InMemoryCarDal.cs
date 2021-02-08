@@ -1,5 +1,6 @@
 ﻿using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace DataAccess.Concrete.InMemory
                         DailyPrice = 120, Description = "Fiat Linea 2017 Model"},
 
                 new Car{CarId = 5, BrandId = 1, ColorId = 4, ModelYear = "2020", 
-                        DailyPrice = 100, Description = "Fiat Linea 2017 Model"},
+                        DailyPrice = 100, Description = "Fiat Linea 2020 Model"},
             };
         }
 
@@ -62,6 +63,11 @@ namespace DataAccess.Concrete.InMemory
         public List<Car> GetById(int carId)
         {
             return _cars.Where(c => c.CarId == carId).ToList();
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            throw new NotImplementedException();
         }
 
         public void Update(Car car)
