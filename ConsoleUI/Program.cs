@@ -10,15 +10,26 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            // BrandIdColorIdTest();
-            // CarTest();
-            // BrandTest();
+            //BrandIdColorIdTest();
+            //BrandTest();
             //ColorTest();
+            //CarTest();
 
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            var result = rentalManager.Add(new Rental { RentalId = 5, CarId = 1, CustomerId = 1, RentDate = DateTime.Now, ReturnDate = new DateTime(2021, 02, 12) });
+            Console.WriteLine(result.Message);
+        }
+
+        private static void CarTest()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+            if (result.Success == true)
             {
-               Console.WriteLine(car.BrandName + " / " + car.ColorName + " / " + car.Description + " / " + car.DailyPrice);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.BrandName + " / " + car.ColorName + " / " + car.Description + " / " + car.DailyPrice);
+                }
             }
         }
 
@@ -38,31 +49,22 @@ namespace ConsoleUI
             //brandManager.Delete(new Brand { BrandId = 5, BrandName = "Fiat Fiorino" });
         }
 
-        private static void CarTest()
-        {
-            CarManager carManager = new CarManager(new EfCarDal());
-            // carManager.Add(new Car { CarId = 3, BrandId = 2, ColorId = 3, DailyPrice = 200, ModelYear = "2017", Description = "Ford Courier 2017 Model" });
-            // carManager.Add(new Car { CarId = 4, BrandId = 3, ColorId = 3, DailyPrice = -3, ModelYear = "2017", Description = "Fiat Linea" });
-            carManager.Update(new Car { CarId = 3, BrandId = 3, ColorId = 2, DailyPrice = 160, ModelYear = "2018", Description = "Fiat Linea 2020 Model" });
-            carManager.Delete(new Car { CarId = 1, BrandId = 3, ColorId = 1, DailyPrice = 80, ModelYear = "2011", Description = "Hyundai Accent Era 2011 Model" });
-        }
-
-        private static CarManager BrandIdColorIdTest()
+        private void BrandIdColorIdTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
             Console.WriteLine("BrandId'ye göre");
-            foreach (var item in carManager.GetCarsByBrandId(3))
+            var brandResult = carManager.GetCarsByBrandId(3);
+            foreach (var item in brandResult.Data)
             {
                 Console.WriteLine(item.Description);
             }
             Console.WriteLine("ColorId'ye göre");
-            foreach (var item in carManager.GetCarsByColorId(2))
+            var colorResult = carManager.GetCarsByColorId(2);
+            foreach (var item in colorResult.Data)
             {
                 Console.WriteLine(item.Description);
             }
-
-            return carManager;
         }
     }
 }
