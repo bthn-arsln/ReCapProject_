@@ -20,15 +20,14 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            if(rental.ReturnDate > rental.RentDate)
+ 
+            if (rental.ReturnDate > rental.RentDate)
             {
                 return new ErrorResult("Araba teslim edilmedi");
             }
-            else
-            {
-                _rentalDal.Add(rental);
-                return new SuccessResult("Araba kiralandı");
-            }
+            _rentalDal.Add(rental);
+            return new SuccessResult("Araba kiralandı");
+
         }
 
         public IResult Delete(Rental rental)
