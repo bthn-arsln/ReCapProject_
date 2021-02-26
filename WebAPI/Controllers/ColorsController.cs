@@ -1,6 +1,5 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -19,10 +18,22 @@ namespace WebAPI.Controllers
         {
             _colorService = colorService;
         }
+
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
             var result = _colorService.GetAll();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("id")]
+        public IActionResult GetById(int id)
+        {
+            var result = _colorService.GetById(id);
             if (result.Success)
             {
                 return Ok(result);
@@ -41,10 +52,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("update")]
-        public IActionResult Update(Color color)
+        [HttpPost("delete")]
+        public IActionResult Delete(Color color)
         {
-            var result = _colorService.Update(color);
+            var result = _colorService.Delete(color);
             if (result.Success)
             {
                 return Ok(result);
@@ -52,10 +63,10 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpPost("delete")]
-        public IActionResult Delete(Color color)
+        [HttpPost("update")]
+        public IActionResult Update(Color color)
         {
-            var result = _colorService.Delete(color);
+            var result = _colorService.Update(color);
             if (result.Success)
             {
                 return Ok(result);

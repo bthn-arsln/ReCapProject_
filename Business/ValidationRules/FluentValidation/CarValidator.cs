@@ -6,15 +6,14 @@ using System.Text;
 
 namespace Business.ValidationRules.FluentValidation
 {
-    public class CarValidator:AbstractValidator<Car>
+    public class CarValidator : AbstractValidator<Car>
     {
         public CarValidator()
         {
-            RuleFor(c => c.DailyPrice).NotEmpty();
+            RuleFor(c => c.BrandId).NotEmpty();
+            RuleFor(c => c.ColorId).NotEmpty();
             RuleFor(c => c.DailyPrice).GreaterThan(0);
-            RuleFor(c => c.DailyPrice).GreaterThanOrEqualTo(10).When(c => c.BrandId == 3);
-            RuleFor(c => c.Description).NotEmpty();
-            RuleFor(c => c.Description).MinimumLength(10);
+            RuleFor(c => c.ModelYear).GreaterThan("1950");
         }
     }
 }

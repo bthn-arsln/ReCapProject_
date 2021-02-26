@@ -2,17 +2,18 @@
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq.Expressions;
 
 namespace Business.Concrete
 {
-    public class CarManager : ICarService
+    public class CarManager: ICarService
     {
         ICarDal _carDal;
 
@@ -21,8 +22,8 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-       [ValidationAspect(typeof(CarValidator))]
-        public IResult Add(Car car)
+        [ValidationAspect(typeof(CarValidator))]
+        public IResult Add(Car car) 
         {
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
@@ -36,12 +37,35 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
+            //if (DateTime.Now.Hour == 5)
+            //{
+            //    return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+            //}
+
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
+        }
+
+        public IDataResult<Car> GetById(int carId)
+        {
+            //if (DateTime.Now.Hour == 5)
+            //{
+            //    return new ErrorDataResult<Car>(Messages.MaintenanceTime);
+            //}
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
+        {
+            //if (DateTime.Now.Hour == 5)
+            //{
+            //    return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceTime);
+            //}
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter));
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(), Messages.CarListedDetail);
+            throw new NotImplementedException();
         }
 
         public IDataResult<List<Car>> GetCarsByBrandId(int id)
