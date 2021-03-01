@@ -1,6 +1,7 @@
 ﻿using Entities.Concrete;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Business.Constants
@@ -53,5 +54,7 @@ namespace Business.Constants
         public static string CarImageDeleted = "Araba resmi silindi";
         public static string IncorrectFileExtension = "Resim uzantısı hatalı";
         public static string FileNotFound = "Dosya belirtilen yolda bulunamadı";
+
+        public static string AuthorizationDenied = "Yetkiniz Yok";
     }
 }
